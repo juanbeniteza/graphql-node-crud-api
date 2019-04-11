@@ -1,0 +1,33 @@
+{
+  "name": "graphql-node-crud-api",
+  "version": "0.1.0",
+  "description": "Simple CRUD API with GraphQL and Node.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JuanBenitez97/graphql-node-crud-api.git"
+  },
+  "keywords": [
+    "graphql",
+    "nodejs",
+    "api",
+    "crud"
+  ],
+  "author": "Juan Benitez",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JuanBenitez97/graphql-node-crud-api/issues"
+  },
+  "homepage": "https://github.com/JuanBenitez97/graphql-node-crud-api#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.11"
+  }
+}
