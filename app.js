@@ -13,6 +13,32 @@ const app = express();
 
 app.use(bodyParser.json());
 
+const events = eventIds => {
+  return Event.find({ _id: { $in: eventIds } })
+    .then(events => {
+      return events.map(event => {
+        return { ...event._doc, creator: user.bind(this, event._doc.creator) };
+      });
+    })
+    .catch(err => {
+      throw err;
+    });
+};
+
+const user = userId => {
+  return User.findById(userId)
+    .then(user => {
+      return {
+        ...user._doc,
+        password: null,
+        createdEvents: events.bind(this, user._doc.createdEvents)
+      };
+    })
+    .catch(err => {
+      throw err;
+    });
+};
+
 app.use(
   "/graphql",
   graphqlHttp({
@@ -66,7 +92,10 @@ app.use(
           .then(events => {
             // Return is for express-graphql knows that is an async and we need to wait
             return events.map(event => {
-              return { ...event._doc };
+              return {
+                ...event._doc,
+                creator: user.bind(this, event._doc.creator)
+              };
             });
           })
           .catch(err => {
@@ -85,7 +114,10 @@ app.use(
         return event
           .save()
           .then(result => {
-            createdEvent = { ...result._doc };
+            createdEvent = {
+              ...result._doc,
+              creator: user.bind(this, event._doc.creator)
+            };
             return User.findById("5cb27257ee98b931b48a3fe6");
           })
           .then(user => {
@@ -96,7 +128,7 @@ app.use(
             return user.save();
           })
           .then(result => {
-              return createdEvent;
+            return createdEvent;
           })
           .catch(err => {
             console.log(err);
