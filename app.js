@@ -19,13 +19,16 @@ app.use(
   })
 );
 
+
+const atlasUrl = `mongodb+srv://${process.env.MONGO_USER}:${
+  process.env.MONGO_PASSWORD
+}@cluster0-gxoow.mongodb.net/${process.env.MONGO_DB}?retryWrites=true`  
+
 mongoose
   .connect(
-    `mongodb+srv://${process.env.MONGO_USER}:${
-      process.env.MONGO_PASSWORD
-    }@cluster0-gxoow.mongodb.net/${process.env.MONGO_DB}?retryWrites=true`
+    `mongodb://mongo:27017/${process.env.MONGO_DB}`
   )
-  .then(() => {
+  .then(() => { 
     app.listen(3000);
   })
   .catch(err => {
