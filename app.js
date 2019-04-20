@@ -3,12 +3,15 @@ const bodyParser = require("body-parser");
 const graphqlHttp = require("express-graphql");
 const mongoose = require("mongoose");
 
-const graphqlresolvers = require('./graphql/resolvers/index');
-const graphqlSchema = require('./graphql/schema/index');
+const graphqlresolvers = require("./graphql/resolvers/index");
+const graphqlSchema = require("./graphql/schema/index");
+const isAuth = require("./middleware/is-auth");
 
 const app = express();
 
 app.use(bodyParser.json());
+
+app.use(isAuth);
 
 app.use(
   "/graphql",
@@ -19,16 +22,13 @@ app.use(
   })
 );
 
-
 const atlasUrl = `mongodb+srv://${process.env.MONGO_USER}:${
   process.env.MONGO_PASSWORD
-}@cluster0-gxoow.mongodb.net/${process.env.MONGO_DB}?retryWrites=true`  
+}@cluster0-gxoow.mongodb.net/${process.env.MONGO_DB}?retryWrites=true`;
 
 mongoose
-  .connect(
-    `mongodb://mongo:27017/${process.env.MONGO_DB}`
-  )
-  .then(() => { 
+  .connect(`mongodb://mongo:27017/${process.env.MONGO_DB}`)
+  .then(() => {
     app.listen(3000);
   })
   .catch(err => {

@@ -4,7 +4,10 @@ const { transformBooking } = require("./merge");
 
 
 module.exports = {
-  bookings: () => {
+  bookings: (req) => {
+    if (!req.isAuth){
+      throw new Error("Unathenticated");
+    }
     return Booking.find()
       .then(bookings => {
         return bookings.map(booking => {
@@ -15,7 +18,10 @@ module.exports = {
         throw err;
       });
   },
-  bookEvent: args => {
+  bookEvent: (args, req) => {
+    if (!req.isAuth){
+      throw new Error("Unathenticated");
+    }
     return Event.findById(args.eventId)
       .then(event => {
         const booking = new Booking({
@@ -31,7 +37,10 @@ module.exports = {
         throw err;
       });
   },
-  cancelBooking: args => {
+  cancelBooking: (args, req) => {
+    if (!req.isAuth){
+      throw new Error("Unathenticated");
+    }
     let eventBooking;
     return Booking.findById(args.bookingId)
       .populate("event")
